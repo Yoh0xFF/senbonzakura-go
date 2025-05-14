@@ -12,18 +12,18 @@ const (
 	*******************
 	 */
 
-	NodeProgram
-	NodeBlock
-	NodeEmpty
-	NodeExpressionStmt
-	NodeVariableDeclaration
-	NodeIf
-	NodeWhile
-	NodeDoWhile
-	NodeFor
-	NodeFunctionDeclaration
-	NodeReturn
-	NodeClassDeclaration
+	NodeProgramStatement
+	NodeBlockStatement
+	NodeEmptyStatement
+	NodeExpressionStatement
+	NodeVariableDeclarationStatement
+	NodeIfStatement
+	NodeWhileStatement
+	NodeDoWhileStatement
+	NodeForStatement
+	NodeFunctionDeclarationStatement
+	NodeReturnStatement
+	NodeClassDeclarationStatement
 
 	/**
 	********************
@@ -31,21 +31,21 @@ const (
 	********************
 	 */
 
-	NodeVariable
-	NodeAssignment
-	NodeBinary
-	NodeUnary
-	NodeLogical
-	NodeBooleanLiteral
-	NodeNilLiteral
-	NodeStringLiteral
-	NodeNumericLiteral
-	NodeIdentifier
-	NodeMember
-	NodeCall
-	NodeThis
-	NodeSuper
-	NodeNew
+	NodeVariableExpression
+	NodeAssignmentExpression
+	NodeBinaryExpression
+	NodeUnaryExpression
+	NodeLogicalExpression
+	NodeBooleanLiteralExpression
+	NodeNilLiteralExpression
+	NodeStringLiteralExpression
+	NodeNumericLiteralExpression
+	NodeIdentifierExpression
+	NodeMemberExpression
+	NodeCallExpression
+	NodeThisExpression
+	NodeSuperExpression
+	NodeNewExpression
 )
 
 // String representation for debugging
@@ -55,62 +55,62 @@ func (t NodeType) String() string {
 		return "Unknown"
 
 	// Statements
-	case NodeProgram:
-		return "Program"
-	case NodeBlock:
-		return "Block"
-	case NodeEmpty:
-		return "Empty"
-	case NodeExpressionStmt:
+	case NodeProgramStatement:
+		return "ProgramStatement"
+	case NodeBlockStatement:
+		return "BlockStatement"
+	case NodeEmptyStatement:
+		return "EmptyStatement"
+	case NodeExpressionStatement:
 		return "ExpressionStatement"
-	case NodeVariableDeclaration:
-		return "VariableDeclaration"
-	case NodeIf:
-		return "If"
-	case NodeWhile:
-		return "While"
-	case NodeDoWhile:
-		return "DoWhile"
-	case NodeFor:
-		return "For"
-	case NodeFunctionDeclaration:
-		return "FunctionDeclaration"
-	case NodeReturn:
-		return "Return"
-	case NodeClassDeclaration:
-		return "ClassDeclaration"
+	case NodeVariableDeclarationStatement:
+		return "VariableDeclarationStatement"
+	case NodeIfStatement:
+		return "IfStatement"
+	case NodeWhileStatement:
+		return "WhileStatement"
+	case NodeDoWhileStatement:
+		return "DoWhileStatement"
+	case NodeForStatement:
+		return "ForStatement"
+	case NodeFunctionDeclarationStatement:
+		return "FunctionDeclarationStatement"
+	case NodeReturnStatement:
+		return "ReturnStatement"
+	case NodeClassDeclarationStatement:
+		return "ClassDeclarationStatement"
 
 	// Expressions
-	case NodeVariable:
-		return "Variable"
-	case NodeAssignment:
-		return "Assignment"
-	case NodeBinary:
-		return "Binary"
-	case NodeUnary:
-		return "Unary"
-	case NodeLogical:
-		return "Logical"
-	case NodeBooleanLiteral:
-		return "BooleanLiteral"
-	case NodeNilLiteral:
-		return "NilLiteral"
-	case NodeStringLiteral:
-		return "StringLiteral"
-	case NodeNumericLiteral:
-		return "NumericLiteral"
-	case NodeIdentifier:
-		return "Identifier"
-	case NodeMember:
-		return "Member"
-	case NodeCall:
-		return "Call"
-	case NodeThis:
-		return "This"
-	case NodeSuper:
-		return "Super"
-	case NodeNew:
-		return "New"
+	case NodeVariableExpression:
+		return "VariableExpression"
+	case NodeAssignmentExpression:
+		return "AssignmentExpression"
+	case NodeBinaryExpression:
+		return "BinaryExpression"
+	case NodeUnaryExpression:
+		return "UnaryExpression"
+	case NodeLogicalExpression:
+		return "LogicalExpression"
+	case NodeBooleanLiteralExpression:
+		return "BooleanLiteralExpression"
+	case NodeNilLiteralExpression:
+		return "NilLiteralExpression"
+	case NodeStringLiteralExpression:
+		return "StringLiteralExpression"
+	case NodeNumericLiteralExpression:
+		return "NumericLiteralExpression"
+	case NodeIdentifierExpression:
+		return "IdentifierExpression"
+	case NodeMemberExpression:
+		return "MemberExpression"
+	case NodeCallExpression:
+		return "CallExpression"
+	case NodeThisExpression:
+		return "ThisExpression"
+	case NodeSuperExpression:
+		return "SuperExpression"
+	case NodeNewExpression:
+		return "NewExpression"
 	default:
 		return "InvalidNodeType"
 	}
@@ -118,18 +118,18 @@ func (t NodeType) String() string {
 
 // IsStatement Helper methods for node categories
 func (t NodeType) IsStatement() bool {
-	return t >= NodeProgram && t <= NodeClassDeclaration
+	return t >= NodeProgramStatement && t <= NodeClassDeclarationStatement
 }
 
 // IsExpression Helper methods for node categories
 func (t NodeType) IsExpression() bool {
-	return t >= NodeVariable && t <= NodeNew
+	return t >= NodeVariableExpression && t <= NodeNewExpression
 }
 
 // IsLiteral Helper methods for node categories
 func (t NodeType) IsLiteral() bool {
 	switch t {
-	case NodeBooleanLiteral, NodeNilLiteral, NodeStringLiteral, NodeNumericLiteral:
+	case NodeBooleanLiteralExpression, NodeNilLiteralExpression, NodeStringLiteralExpression, NodeNumericLiteralExpression:
 		return true
 	default:
 		return false
