@@ -37,7 +37,5 @@ func ParseRootStatement(parser *Parser) ast.Statement {
 //	: AssignmentExpression
 //	;
 func ParseRootExpression(parser *Parser) ast.Expression {
-	// TODO
-	// parse_assignment_expression(parser)
-	return nil
+	return parseAssignmentExpression(parser)
 }

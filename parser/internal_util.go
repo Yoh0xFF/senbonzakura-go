@@ -6,8 +6,8 @@ import (
 	"github.com/yoh0xff/senbonzakura/lexer"
 )
 
-// Eat expects a token of a given type
-func eat(parser *Parser, tokenType lexer.TokenType) lexer.Token {
+// eatToken expects a token of a given type
+func eatToken(parser *Parser, tokenType lexer.TokenType) lexer.Token {
 	if parser.lookahead.TokenType != tokenType {
 		panic(fmt.Sprintf(
 			"Unexpected token: %s, expected token: '%s'",
@@ -20,8 +20,8 @@ func eat(parser *Parser, tokenType lexer.TokenType) lexer.Token {
 	return preToken
 }
 
-// EatAnyOf expects a token of any given types
-func eatAnyOf(parser *Parser, tokenTypes []lexer.TokenType) lexer.Token {
+// eatAnyOfToken expects a token of any given types
+func eatAnyOfToken(parser *Parser, tokenTypes []lexer.TokenType) lexer.Token {
 	for _, tokenType := range tokenTypes {
 		if parser.lookahead.TokenType == tokenType {
 			preToken := parser.lookahead
@@ -36,13 +36,13 @@ func eatAnyOf(parser *Parser, tokenTypes []lexer.TokenType) lexer.Token {
 	))
 }
 
-// IsToken checks the current token type
-func isToken(parser *Parser, tokenType lexer.TokenType) bool {
+// isNextTokenOfType checks the current token type
+func isNextTokenOfType(parser *Parser, tokenType lexer.TokenType) bool {
 	return parser.lookahead.TokenType == tokenType
 }
 
-// IsAnyOfToken checks if the current token is any of the given types
-func isAnyOfToken(parser *Parser, tokenTypes []lexer.TokenType) bool {
+// isNextTokenAnyOfType checks if the current token is any of the given types
+func isNextTokenAnyOfType(parser *Parser, tokenTypes []lexer.TokenType) bool {
 	for _, tokenType := range tokenTypes {
 		if parser.lookahead.TokenType == tokenType {
 			return true
@@ -52,8 +52,8 @@ func isAnyOfToken(parser *Parser, tokenTypes []lexer.TokenType) bool {
 	return false
 }
 
-// IsValidAssignmentTarget checks if the expression is valid assignment target
-func isValidAssignmentTarget(expression ast.Expression) bool {
+// isNextTokenValidAssignmentTarget checks if the expression is valid assignment target
+func isNextTokenValidAssignmentTarget(expression ast.Expression) bool {
 	switch expression.NodeType() {
 	case ast.NodeIdentifierExpression, ast.NodeMemberExpression:
 		return true
@@ -62,9 +62,9 @@ func isValidAssignmentTarget(expression ast.Expression) bool {
 	}
 }
 
-// IsLiteralToken checks if the current token is literal
-func isLiteralToken(parser *Parser) bool {
-	return isAnyOfToken(
+// isNextTokenLiteral checks if the current token is literal
+func isNextTokenLiteral(parser *Parser) bool {
+	return isNextTokenAnyOfType(
 		parser,
 		[]lexer.TokenType{
 			lexer.TokenBoolean,
@@ -75,9 +75,9 @@ func isLiteralToken(parser *Parser) bool {
 	)
 }
 
-// IsAssignmentOperatorToken checks if the current token is assignment operator
-func isAssignmentOperatorToken(parser *Parser) bool {
-	return isAnyOfToken(
+// isNextTokenAssignmentOperator checks if the current token is assignment operator
+func isNextTokenAssignmentOperator(parser *Parser) bool {
+	return isNextTokenAnyOfType(
 		parser,
 		[]lexer.TokenType{
 			lexer.TokenSimpleAssignmentOperator,
@@ -105,7 +105,7 @@ func parseBinaryExpression(
 	left := operandParser(parser)
 
 	for parser.lookahead.TokenType == tokenType {
-		operatorToken := eat(parser, tokenType)
+		operatorToken := eatToken(parser, tokenType)
 		operatorValue := parser.source[operatorToken.Start:operatorToken.End]
 		operator := operatorMapper(operatorValue)
 
@@ -131,7 +131,7 @@ func parseLogicalExpression(
 	left := operandParser(parser)
 
 	for parser.lookahead.TokenType == tokenType {
-		operatorToken := eat(parser, tokenType)
+		operatorToken := eatToken(parser, tokenType)
 		operatorValue := parser.source[operatorToken.Start:operatorToken.End]
 		operator := operatorMapper(operatorValue)
 

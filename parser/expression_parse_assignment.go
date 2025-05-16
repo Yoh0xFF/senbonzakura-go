@@ -16,11 +16,11 @@ import (
 func parseAssignmentExpression(parser *Parser) ast.Expression {
 	left := parseLogicalOrExpression(parser)
 
-	if !isAssignmentOperatorToken(parser) {
+	if !isNextTokenAssignmentOperator(parser) {
 		return left
 	}
 
-	assignmentOperatorToken := eatAnyOf(
+	assignmentOperatorToken := eatAnyOfToken(
 		parser,
 		[]lexer.TokenType{
 			lexer.TokenSimpleAssignmentOperator,
@@ -46,7 +46,7 @@ func parseAssignmentExpression(parser *Parser) ast.Expression {
 		panic(fmt.Sprintf("Unknown assignment operator %s", assignmentOperatorValue))
 	}
 
-	if !isValidAssignmentTarget(left) {
+	if !isNextTokenValidAssignmentTarget(left) {
 		panic("Invalid left-hand side in the assignment expression")
 	}
 

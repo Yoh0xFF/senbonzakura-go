@@ -39,7 +39,7 @@ func parseLiteralExpression(parser *Parser) ast.Expression {
 //	: BOOLEAN
 //	;
 func parseBooleanLiteralExpression(parser *Parser) ast.Expression {
-	token := eat(parser, lexer.TokenBoolean)
+	token := eatToken(parser, lexer.TokenBoolean)
 	tokenValue := parser.source[token.Start:token.End]
 	boolValue := tokenValue == "true"
 
@@ -55,7 +55,7 @@ func parseBooleanLiteralExpression(parser *Parser) ast.Expression {
 //	: NIL
 //	;
 func parseNilLiteralExpression(parser *Parser) ast.Expression {
-	eat(parser, lexer.TokenNil)
+	eatToken(parser, lexer.TokenNil)
 
 	return &ast.NilLiteralExpression{}
 }
@@ -67,7 +67,7 @@ func parseNilLiteralExpression(parser *Parser) ast.Expression {
 //	: NUMBER
 //	;
 func parseNumericLiteralExpression(parser *Parser) ast.Expression {
-	token := eat(parser, lexer.TokenNumber)
+	token := eatToken(parser, lexer.TokenNumber)
 	tokenValue := parser.source[token.Start:token.End]
 	tokenValue = strings.TrimSpace(tokenValue)
 
@@ -89,7 +89,7 @@ func parseNumericLiteralExpression(parser *Parser) ast.Expression {
 //	: STRING
 //	;
 func parseStringLiteralExpression(parser *Parser) ast.Expression {
-	token := eat(parser, lexer.TokenString)
+	token := eatToken(parser, lexer.TokenString)
 	// Remove the surrounding quotes
 	tokenValue := parser.source[token.Start+1 : token.End-1]
 
