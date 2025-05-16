@@ -1,11 +1,11 @@
 package ast
 
 type ProgramStatement struct {
-	Body Statement
+	Body []Statement
 }
 
 type BlockStatement struct {
-	Body Statement
+	Body []Statement
 }
 
 type EmptyStatement struct {
@@ -16,22 +16,22 @@ type ExpressionStatement struct {
 }
 
 type VariableDeclarationStatement struct {
-	Variables []Expression
+	Variables []*VariableExpression
 }
 
 type IfStatement struct {
 	Condition   Expression
-	Consequent  Statement
-	Alternative Statement // can be nil
+	Consequent  *BlockStatement
+	Alternative *BlockStatement // can be nil
 }
 
 type WhileStatement struct {
 	Condition Expression
-	Body      Statement
+	Body      *BlockStatement
 }
 
 type DoWhileStatement struct {
-	Body      Statement
+	Body      *BlockStatement
 	Condition Expression
 }
 
@@ -39,14 +39,14 @@ type ForStatement struct {
 	Initializer Statement  // can be nil
 	Condition   Expression // can be nil
 	Increment   Expression // can be nil
-	Body        Statement
+	Body        *BlockStatement
 }
 
 type FunctionDeclarationStatement struct {
-	Name       Expression
+	Name       *IdentifierExpression
 	Parameters []Parameter
 	ReturnType Type
-	Body       Statement
+	Body       *BlockStatement
 }
 
 type ReturnStatement struct {
@@ -54,9 +54,9 @@ type ReturnStatement struct {
 }
 
 type ClassDeclarationStatement struct {
-	Name       Expression
-	SuperClass Expression // can be nil
-	Body       Statement
+	Name       *IdentifierExpression
+	SuperClass *IdentifierExpression // can be nil
+	Body       *BlockStatement
 }
 
 // Implementation of isStatement interface method

@@ -1,7 +1,7 @@
 package ast
 
 type VariableExpression struct {
-	Identifier     Expression
+	Identifier     *IdentifierExpression
 	TypeAnnotation Type
 	Initializer    Expression // can be nil
 }
