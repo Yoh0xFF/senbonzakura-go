@@ -24,10 +24,16 @@ func NewParser(source string) *Parser {
 
 // ParseRootStatement entry point to parse statement
 // Parses a string into an AST
+//
+// Program
+//
+//	: StatementList
+//	;
 func ParseRootStatement(parser *Parser) ast.Statement {
-	// TODO
-	// parse_program_statement(parser)
-	return nil
+	statementList := parseStatementList(parser, lexer.TokenType(-1)) // -1 as a sentinel value indicating no stop token
+	return &ast.ProgramStatement{
+		Body: statementList,
+	}
 }
 
 // ParseRootExpression entry point to parse expression
