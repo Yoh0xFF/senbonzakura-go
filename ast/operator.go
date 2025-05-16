@@ -6,25 +6,25 @@ import "fmt"
 type AssignmentOperator int
 
 const (
-	Assign AssignmentOperator = iota
-	AssignAdd
-	AssignSubtract
-	AssignMultiply
-	AssignDivide
+	OperatorAssign AssignmentOperator = iota
+	OperatorAssignAdd
+	OperatorAssignSubtract
+	OperatorAssignMultiply
+	OperatorAssignDivide
 )
 
 // String returns the string representation of an AssignmentOperator
 func (op AssignmentOperator) String() string {
 	switch op {
-	case Assign:
+	case OperatorAssign:
 		return "="
-	case AssignAdd:
+	case OperatorAssignAdd:
 		return "+="
-	case AssignSubtract:
+	case OperatorAssignSubtract:
 		return "-="
-	case AssignMultiply:
+	case OperatorAssignMultiply:
 		return "*="
-	case AssignDivide:
+	case OperatorAssignDivide:
 		return "/="
 	default:
 		return fmt.Sprintf("Unknown assignment operator: %d", op)
@@ -35,40 +35,40 @@ func (op AssignmentOperator) String() string {
 type BinaryOperator int
 
 const (
-	Add BinaryOperator = iota
-	Subtract
-	Multiply
-	Divide
-	Equal
-	NotEqual
-	GreaterThan
-	GreaterThanOrEqualTo
-	LessThan
-	LessThanOrEqualTo
+	OperatorAdd BinaryOperator = iota
+	OperatorSubtract
+	OperatorMultiply
+	OperatorDivide
+	OperatorEqual
+	OperatorNotEqual
+	OperatorGreaterThan
+	OperatorGreaterThanOrEqualTo
+	OperatorLessThan
+	OperatorLessThanOrEqualTo
 )
 
 // String returns the string representation of a BinaryOperator
 func (op BinaryOperator) String() string {
 	switch op {
-	case Add:
+	case OperatorAdd:
 		return "+"
-	case Subtract:
+	case OperatorSubtract:
 		return "-"
-	case Multiply:
+	case OperatorMultiply:
 		return "*"
-	case Divide:
+	case OperatorDivide:
 		return "/"
-	case Equal:
+	case OperatorEqual:
 		return "=="
-	case NotEqual:
+	case OperatorNotEqual:
 		return "!="
-	case GreaterThan:
+	case OperatorGreaterThan:
 		return ">"
-	case GreaterThanOrEqualTo:
+	case OperatorGreaterThanOrEqualTo:
 		return ">="
-	case LessThan:
+	case OperatorLessThan:
 		return "<"
-	case LessThanOrEqualTo:
+	case OperatorLessThanOrEqualTo:
 		return "<="
 	default:
 		return fmt.Sprintf("Unknown binary operator: %d", op)
@@ -79,19 +79,19 @@ func (op BinaryOperator) String() string {
 type UnaryOperator int
 
 const (
-	Plus UnaryOperator = iota
-	Minus
-	Not
+	OperatorPlus UnaryOperator = iota
+	OperatorMinus
+	OperatorNot
 )
 
 // String returns the string representation of a UnaryOperator
 func (op UnaryOperator) String() string {
 	switch op {
-	case Plus:
+	case OperatorPlus:
 		return "+"
-	case Minus:
+	case OperatorMinus:
 		return "-"
-	case Not:
+	case OperatorNot:
 		return "!"
 	default:
 		return fmt.Sprintf("Unknown unary operator: %d", op)
@@ -102,16 +102,16 @@ func (op UnaryOperator) String() string {
 type LogicalOperator int
 
 const (
-	And LogicalOperator = iota
-	Or
+	OperatorAnd LogicalOperator = iota
+	OperatorOr
 )
 
 // String returns the string representation of a LogicalOperator
 func (op LogicalOperator) String() string {
 	switch op {
-	case And:
+	case OperatorAnd:
 		return "&&"
-	case Or:
+	case OperatorOr:
 		return "||"
 	default:
 		return fmt.Sprintf("Unknown logical operator: %d", op)
