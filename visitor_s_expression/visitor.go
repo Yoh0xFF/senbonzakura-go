@@ -25,26 +25,26 @@ func (v *SExpressionVisitor) VisitExpression(expression ast.Expression) any {
 	return visitExpression(v, expression)
 }
 
-// BeginExpr starts a new S-expression with the given tag
-func (v *SExpressionVisitor) BeginExpr(tag string) {
+// beginExpression starts a new S-expression with the given tag
+func (v *SExpressionVisitor) beginExpression(tag string) {
 	v.buffer.WriteString("(")
 	v.buffer.WriteString(tag)
 	v.indentLevel++
 }
 
-// EndExpr closes the current S-expression
-func (v *SExpressionVisitor) EndExpr() {
+// endExpression closes the current S-expression
+func (v *SExpressionVisitor) endExpression() {
 	v.indentLevel--
 	v.buffer.WriteString(")")
 }
 
-// WriteSpaceOrNewLine writes a space or a newline based on formatting rules
-func (v *SExpressionVisitor) WriteSpaceOrNewLine() {
+// writeSpaceOrNewLine writes a space or a newline based on formatting rules
+func (v *SExpressionVisitor) writeSpaceOrNewLine() {
 	v.buffer.WriteString(" ")
 }
 
-// WriteString writes a string to the output
-func (v *SExpressionVisitor) WriteString(s string) {
+// writeString writes a string to the output
+func (v *SExpressionVisitor) writeString(s string) {
 	v.buffer.WriteString(s)
 }
 

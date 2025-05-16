@@ -37,217 +37,217 @@ func visitStatement(visitor *SExpressionVisitor, statement ast.Statement) any {
 }
 
 func visitProgramStatement(visitor *SExpressionVisitor, statement *ast.ProgramStatement) error {
-	visitor.BeginExpr("program")
+	visitor.beginExpression("program")
 
 	if len(statement.Body) > 0 {
 		for _, stmt := range statement.Body {
-			visitor.WriteSpaceOrNewLine()
+			visitor.writeSpaceOrNewLine()
 			stmt.Accept(visitor)
 		}
 	}
 
-	visitor.EndExpr()
+	visitor.endExpression()
 	return nil
 }
 
 func visitBlockStatement(visitor *SExpressionVisitor, statement *ast.BlockStatement) error {
-	visitor.BeginExpr("block")
+	visitor.beginExpression("block")
 
 	if len(statement.Body) > 0 {
 		for _, stmt := range statement.Body {
-			visitor.WriteSpaceOrNewLine()
+			visitor.writeSpaceOrNewLine()
 			stmt.Accept(visitor)
 		}
 	}
 
-	visitor.EndExpr()
+	visitor.endExpression()
 	return nil
 }
 
 func visitEmptyStatement(visitor *SExpressionVisitor) error {
-	visitor.BeginExpr("empty")
-	visitor.EndExpr()
+	visitor.beginExpression("empty")
+	visitor.endExpression()
 	return nil
 }
 
 func visitExpressionStatement(visitor *SExpressionVisitor, statement *ast.ExpressionStatement) error {
-	visitor.BeginExpr("expr")
-	visitor.WriteSpaceOrNewLine()
+	visitor.beginExpression("expr")
+	visitor.writeSpaceOrNewLine()
 	statement.Expression.Accept(visitor)
-	visitor.EndExpr()
+	visitor.endExpression()
 	return nil
 }
 
 func visitVariableDeclarationStatement(visitor *SExpressionVisitor, statement *ast.VariableDeclarationStatement) error {
-	visitor.BeginExpr("let")
+	visitor.beginExpression("let")
 
 	for _, variable := range statement.Variables {
-		visitor.WriteSpaceOrNewLine()
+		visitor.writeSpaceOrNewLine()
 		variable.Accept(visitor)
 	}
 
-	visitor.EndExpr()
+	visitor.endExpression()
 	return nil
 }
 
 func visitConditionalStatement(visitor *SExpressionVisitor, statement *ast.IfStatement) error {
-	visitor.BeginExpr("if")
+	visitor.beginExpression("if")
 
 	// Process condition
-	visitor.WriteSpaceOrNewLine()
+	visitor.writeSpaceOrNewLine()
 	statement.Condition.Accept(visitor)
 
 	// Process consequent
-	visitor.WriteSpaceOrNewLine()
+	visitor.writeSpaceOrNewLine()
 	statement.Consequent.Accept(visitor)
 
 	// Process alternative if present
 	if statement.Alternative != nil {
-		visitor.WriteSpaceOrNewLine()
+		visitor.writeSpaceOrNewLine()
 		statement.Alternative.Accept(visitor)
 	}
 
-	visitor.EndExpr()
+	visitor.endExpression()
 	return nil
 }
 
 func visitWhileStatement(visitor *SExpressionVisitor, statement *ast.WhileStatement) error {
-	visitor.BeginExpr("while")
+	visitor.beginExpression("while")
 
 	// Process condition
-	visitor.WriteSpaceOrNewLine()
+	visitor.writeSpaceOrNewLine()
 	statement.Condition.Accept(visitor)
 
 	// Process body
-	visitor.WriteSpaceOrNewLine()
+	visitor.writeSpaceOrNewLine()
 	statement.Body.Accept(visitor)
 
-	visitor.EndExpr()
+	visitor.endExpression()
 	return nil
 }
 
 func visitDoWhileStatement(visitor *SExpressionVisitor, statement *ast.DoWhileStatement) error {
-	visitor.BeginExpr("do-while")
+	visitor.beginExpression("do-while")
 
 	// Process body first (unlike while, do-while executes body first)
-	visitor.WriteSpaceOrNewLine()
+	visitor.writeSpaceOrNewLine()
 	statement.Body.Accept(visitor)
 
 	// Process condition
-	visitor.WriteSpaceOrNewLine()
+	visitor.writeSpaceOrNewLine()
 	statement.Condition.Accept(visitor)
 
-	visitor.EndExpr()
+	visitor.endExpression()
 	return nil
 }
 
 func visitForStatement(visitor *SExpressionVisitor, statement *ast.ForStatement) error {
-	visitor.BeginExpr("for")
+	visitor.beginExpression("for")
 
 	// Process initializer if present
 	if statement.Initializer != nil {
-		visitor.WriteSpaceOrNewLine()
+		visitor.writeSpaceOrNewLine()
 		statement.Initializer.Accept(visitor)
 	}
 
 	// Process condition if present
 	if statement.Condition != nil {
-		visitor.WriteSpaceOrNewLine()
+		visitor.writeSpaceOrNewLine()
 		statement.Condition.Accept(visitor)
 	}
 
 	// Process increment if present
 	if statement.Increment != nil {
-		visitor.WriteSpaceOrNewLine()
+		visitor.writeSpaceOrNewLine()
 		statement.Increment.Accept(visitor)
 	}
 
 	// Process body
-	visitor.WriteSpaceOrNewLine()
+	visitor.writeSpaceOrNewLine()
 	statement.Body.Accept(visitor)
 
-	visitor.EndExpr()
+	visitor.endExpression()
 	return nil
 }
 
 func visitFunctionDeclarationStatement(visitor *SExpressionVisitor, statement *ast.FunctionDeclarationStatement) error {
-	visitor.BeginExpr("def")
+	visitor.beginExpression("def")
 
 	// Process function name
-	visitor.WriteSpaceOrNewLine()
+	visitor.writeSpaceOrNewLine()
 	statement.Name.Accept(visitor)
 
 	// Process parameters
 	if len(statement.Parameters) > 0 {
-		visitor.WriteSpaceOrNewLine()
-		visitor.BeginExpr("params")
+		visitor.writeSpaceOrNewLine()
+		visitor.beginExpression("params")
 
 		for _, param := range statement.Parameters {
-			visitor.WriteSpaceOrNewLine()
-			visitor.BeginExpr("param")
+			visitor.writeSpaceOrNewLine()
+			visitor.beginExpression("param")
 
-			visitor.WriteSpaceOrNewLine()
+			visitor.writeSpaceOrNewLine()
 			param.Name.Accept(visitor)
 
-			visitor.WriteSpaceOrNewLine()
-			visitor.BeginExpr("type")
+			visitor.writeSpaceOrNewLine()
+			visitor.beginExpression("type")
 			visitType(visitor, param.Type)
-			visitor.EndExpr()
+			visitor.endExpression()
 
-			visitor.EndExpr()
+			visitor.endExpression()
 		}
 
-		visitor.EndExpr()
+		visitor.endExpression()
 	}
 
 	// Process return type
-	visitor.WriteSpaceOrNewLine()
-	visitor.BeginExpr("return_type")
+	visitor.writeSpaceOrNewLine()
+	visitor.beginExpression("return_type")
 	visitType(visitor, statement.ReturnType)
-	visitor.EndExpr()
+	visitor.endExpression()
 
 	// Process function body
-	visitor.WriteSpaceOrNewLine()
+	visitor.writeSpaceOrNewLine()
 	statement.Body.Accept(visitor)
 
-	visitor.EndExpr()
+	visitor.endExpression()
 	return nil
 }
 
 func visitReturnStatement(visitor *SExpressionVisitor, statement *ast.ReturnStatement) error {
-	visitor.BeginExpr("return")
+	visitor.beginExpression("return")
 
 	// Process return argument if present
 	if statement.Argument != nil {
-		visitor.WriteSpaceOrNewLine()
+		visitor.writeSpaceOrNewLine()
 		statement.Argument.Accept(visitor)
 	}
 
-	visitor.EndExpr()
+	visitor.endExpression()
 	return nil
 }
 
 func visitClassDeclarationStatement(visitor *SExpressionVisitor, statement *ast.ClassDeclarationStatement) error {
-	visitor.BeginExpr("class")
+	visitor.beginExpression("class")
 
 	// Process class name
-	visitor.WriteSpaceOrNewLine()
+	visitor.writeSpaceOrNewLine()
 	statement.Name.Accept(visitor)
 
 	// Process superclass if present
 	if statement.SuperClass != nil {
-		visitor.WriteSpaceOrNewLine()
-		visitor.BeginExpr("extends")
-		visitor.WriteSpaceOrNewLine()
+		visitor.writeSpaceOrNewLine()
+		visitor.beginExpression("extends")
+		visitor.writeSpaceOrNewLine()
 		statement.SuperClass.Accept(visitor)
-		visitor.EndExpr()
+		visitor.endExpression()
 	}
 
 	// Process class body
-	visitor.WriteSpaceOrNewLine()
+	visitor.writeSpaceOrNewLine()
 	statement.Body.Accept(visitor)
 
-	visitor.EndExpr()
+	visitor.endExpression()
 	return nil
 }
 
@@ -255,54 +255,54 @@ func visitClassDeclarationStatement(visitor *SExpressionVisitor, statement *ast.
 func visitType(visitor *SExpressionVisitor, typeAnnotation ast.Type) {
 	switch t := typeAnnotation.(type) {
 	case *ast.PrimitiveType:
-		visitor.WriteString(t.String())
+		visitor.writeString(t.String())
 	case *ast.ArrayType:
-		visitor.BeginExpr("array")
-		visitor.WriteSpaceOrNewLine()
+		visitor.beginExpression("array")
+		visitor.writeSpaceOrNewLine()
 		visitType(visitor, t.ElementType)
-		visitor.EndExpr()
+		visitor.endExpression()
 	case *ast.FunctionType:
-		visitor.BeginExpr("function")
+		visitor.beginExpression("function")
 
 		// Parameters
-		visitor.WriteSpaceOrNewLine()
-		visitor.BeginExpr("params")
+		visitor.writeSpaceOrNewLine()
+		visitor.beginExpression("params")
 		for _, param := range t.Params {
-			visitor.WriteSpaceOrNewLine()
+			visitor.writeSpaceOrNewLine()
 			visitType(visitor, param)
 		}
-		visitor.EndExpr()
+		visitor.endExpression()
 
 		// Return type
-		visitor.WriteSpaceOrNewLine()
+		visitor.writeSpaceOrNewLine()
 		visitType(visitor, t.ReturnType)
-		visitor.EndExpr()
+		visitor.endExpression()
 	case *ast.ClassType:
-		visitor.BeginExpr("class-type")
-		visitor.WriteSpaceOrNewLine()
-		visitor.WriteString(t.Name)
+		visitor.beginExpression("class-type")
+		visitor.writeSpaceOrNewLine()
+		visitor.writeString(t.Name)
 		if t.SuperClass != nil {
-			visitor.WriteSpaceOrNewLine()
-			visitor.BeginExpr("extends")
-			visitor.WriteSpaceOrNewLine()
-			visitor.WriteString(*t.SuperClass)
-			visitor.EndExpr()
+			visitor.writeSpaceOrNewLine()
+			visitor.beginExpression("extends")
+			visitor.writeSpaceOrNewLine()
+			visitor.writeString(*t.SuperClass)
+			visitor.endExpression()
 		}
-		visitor.EndExpr()
+		visitor.endExpression()
 	case *ast.GenericType:
-		visitor.BeginExpr("generic")
-		visitor.WriteSpaceOrNewLine()
-		visitor.WriteString(t.Base)
-		visitor.WriteSpaceOrNewLine()
-		visitor.BeginExpr("args")
+		visitor.beginExpression("generic")
+		visitor.writeSpaceOrNewLine()
+		visitor.writeString(t.Base)
+		visitor.writeSpaceOrNewLine()
+		visitor.beginExpression("args")
 		for _, arg := range t.TypeArgs {
-			visitor.WriteSpaceOrNewLine()
+			visitor.writeSpaceOrNewLine()
 			visitType(visitor, arg)
 		}
-		visitor.EndExpr()
-		visitor.EndExpr()
+		visitor.endExpression()
+		visitor.endExpression()
 	case *ast.VoidType:
-		visitor.WriteString("void")
+		visitor.writeString("void")
 	default:
 		panic(fmt.Errorf("unknown type annotation: %T", typeAnnotation))
 	}

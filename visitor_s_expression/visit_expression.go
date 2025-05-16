@@ -44,214 +44,214 @@ func visitExpression(visitor *SExpressionVisitor, expression ast.Expression) any
 }
 
 func visitVariableExpression(visitor *SExpressionVisitor, expression *ast.VariableExpression) error {
-	visitor.BeginExpr("init")
+	visitor.beginExpression("init")
 
 	// Process identifier
-	visitor.WriteSpaceOrNewLine()
+	visitor.writeSpaceOrNewLine()
 	expression.Identifier.Accept(visitor)
 
 	// Add type annotation to S-expression
-	visitor.WriteSpaceOrNewLine()
-	visitor.BeginExpr("type")
+	visitor.writeSpaceOrNewLine()
+	visitor.beginExpression("type")
 	visitType(visitor, expression.TypeAnnotation)
-	visitor.EndExpr()
+	visitor.endExpression()
 
 	// Process initializer if present
 	if expression.Initializer != nil {
-		visitor.WriteSpaceOrNewLine()
+		visitor.writeSpaceOrNewLine()
 		expression.Initializer.Accept(visitor)
 	}
 
-	visitor.EndExpr()
+	visitor.endExpression()
 	return nil
 }
 
 func visitAssignmentExpression(visitor *SExpressionVisitor, expression *ast.AssignmentExpression) error {
-	visitor.BeginExpr("assign")
+	visitor.beginExpression("assign")
 
 	// Write the operator
-	visitor.WriteSpaceOrNewLine()
-	visitor.WriteString(fmt.Sprintf("\"%s\"", expression.Operator.String()))
+	visitor.writeSpaceOrNewLine()
+	visitor.writeString(fmt.Sprintf("\"%s\"", expression.Operator.String()))
 
 	// Process left operand
-	visitor.WriteSpaceOrNewLine()
+	visitor.writeSpaceOrNewLine()
 	expression.Left.Accept(visitor)
 
 	// Process right operand
-	visitor.WriteSpaceOrNewLine()
+	visitor.writeSpaceOrNewLine()
 	expression.Right.Accept(visitor)
 
-	visitor.EndExpr()
+	visitor.endExpression()
 	return nil
 }
 
 func visitBinaryExpression(visitor *SExpressionVisitor, expression *ast.BinaryExpression) error {
-	visitor.BeginExpr("binary")
+	visitor.beginExpression("binary")
 
-	visitor.WriteSpaceOrNewLine()
-	visitor.WriteString(fmt.Sprintf("\"%s\"", expression.Operator.String()))
+	visitor.writeSpaceOrNewLine()
+	visitor.writeString(fmt.Sprintf("\"%s\"", expression.Operator.String()))
 
-	visitor.WriteSpaceOrNewLine()
+	visitor.writeSpaceOrNewLine()
 	expression.Left.Accept(visitor)
 
-	visitor.WriteSpaceOrNewLine()
+	visitor.writeSpaceOrNewLine()
 	expression.Right.Accept(visitor)
 
-	visitor.EndExpr()
+	visitor.endExpression()
 	return nil
 }
 
 func visitUnaryExpression(visitor *SExpressionVisitor, expression *ast.UnaryExpression) error {
-	visitor.BeginExpr("unary")
+	visitor.beginExpression("unary")
 
-	visitor.WriteSpaceOrNewLine()
-	visitor.WriteString(fmt.Sprintf("\"%s\"", expression.Operator.String()))
+	visitor.writeSpaceOrNewLine()
+	visitor.writeString(fmt.Sprintf("\"%s\"", expression.Operator.String()))
 
-	visitor.WriteSpaceOrNewLine()
+	visitor.writeSpaceOrNewLine()
 	expression.Right.Accept(visitor)
 
-	visitor.EndExpr()
+	visitor.endExpression()
 	return nil
 }
 
 func visitLogicalExpression(visitor *SExpressionVisitor, expression *ast.LogicalExpression) error {
-	visitor.BeginExpr("logical")
+	visitor.beginExpression("logical")
 
-	visitor.WriteSpaceOrNewLine()
-	visitor.WriteString(fmt.Sprintf("\"%s\"", expression.Operator.String()))
+	visitor.writeSpaceOrNewLine()
+	visitor.writeString(fmt.Sprintf("\"%s\"", expression.Operator.String()))
 
-	visitor.WriteSpaceOrNewLine()
+	visitor.writeSpaceOrNewLine()
 	expression.Left.Accept(visitor)
 
-	visitor.WriteSpaceOrNewLine()
+	visitor.writeSpaceOrNewLine()
 	expression.Right.Accept(visitor)
 
-	visitor.EndExpr()
+	visitor.endExpression()
 	return nil
 }
 
 func visitBooleanLiteralExpression(visitor *SExpressionVisitor, expression *ast.BooleanLiteralExpression) error {
-	visitor.BeginExpr("boolean")
-	visitor.WriteString(fmt.Sprintf(" %t", expression.Value))
-	visitor.EndExpr()
+	visitor.beginExpression("boolean")
+	visitor.writeString(fmt.Sprintf(" %t", expression.Value))
+	visitor.endExpression()
 	return nil
 }
 
 func visitNilLiteralExpression(visitor *SExpressionVisitor) error {
-	visitor.BeginExpr("nil")
-	visitor.EndExpr()
+	visitor.beginExpression("nil")
+	visitor.endExpression()
 	return nil
 }
 
 func visitNumericLiteralExpression(visitor *SExpressionVisitor, expression *ast.NumericLiteralExpression) error {
-	visitor.BeginExpr("number")
-	visitor.WriteString(fmt.Sprintf(" %d", expression.Value))
-	visitor.EndExpr()
+	visitor.beginExpression("number")
+	visitor.writeString(fmt.Sprintf(" %d", expression.Value))
+	visitor.endExpression()
 	return nil
 }
 
 func visitStringLiteralExpression(visitor *SExpressionVisitor, expression *ast.StringLiteralExpression) error {
-	visitor.BeginExpr("string")
+	visitor.beginExpression("string")
 
 	// Replace double quotes with escaped quotes
 	escaped := strings.Replace(expression.Value, "\"", "\\\"", -1)
-	visitor.WriteString(fmt.Sprintf(" \"%s\"", escaped))
+	visitor.writeString(fmt.Sprintf(" \"%s\"", escaped))
 
-	visitor.EndExpr()
+	visitor.endExpression()
 	return nil
 }
 
 func visitIdentifierExpression(visitor *SExpressionVisitor, expression *ast.IdentifierExpression) error {
-	visitor.BeginExpr("id")
+	visitor.beginExpression("id")
 
 	// Write the identifier name
-	visitor.WriteString(fmt.Sprintf(" %s", expression.Name))
+	visitor.writeString(fmt.Sprintf(" %s", expression.Name))
 
-	visitor.EndExpr()
+	visitor.endExpression()
 	return nil
 }
 
 func visitMemberExpression(visitor *SExpressionVisitor, expression *ast.MemberExpression) error {
-	visitor.BeginExpr("member")
+	visitor.beginExpression("member")
 
 	// Indicate whether the member access is computed (bracket notation) or not (dot notation)
-	visitor.WriteSpaceOrNewLine()
+	visitor.writeSpaceOrNewLine()
 	if expression.Computed {
-		visitor.WriteString("\"computed\"")
+		visitor.writeString("\"computed\"")
 	} else {
-		visitor.WriteString("\"static\"")
+		visitor.writeString("\"static\"")
 	}
 
 	// Process object expression (the left part of the member access)
-	visitor.WriteSpaceOrNewLine()
+	visitor.writeSpaceOrNewLine()
 	expression.Object.Accept(visitor)
 
 	// Process property expression (the right part of the member access)
-	visitor.WriteSpaceOrNewLine()
+	visitor.writeSpaceOrNewLine()
 	expression.Property.Accept(visitor)
 
-	visitor.EndExpr()
+	visitor.endExpression()
 	return nil
 }
 
 func visitCallExpression(visitor *SExpressionVisitor, expression *ast.CallExpression) error {
-	visitor.BeginExpr("call")
+	visitor.beginExpression("call")
 
 	// Process callee expression
-	visitor.WriteSpaceOrNewLine()
+	visitor.writeSpaceOrNewLine()
 	expression.Callee.Accept(visitor)
 
 	if len(expression.Arguments) > 0 {
 		// Create args expression
-		visitor.WriteSpaceOrNewLine()
-		visitor.BeginExpr("args")
+		visitor.writeSpaceOrNewLine()
+		visitor.beginExpression("args")
 
 		// Process each argument
 		for _, arg := range expression.Arguments {
-			visitor.WriteSpaceOrNewLine()
+			visitor.writeSpaceOrNewLine()
 			arg.Accept(visitor)
 		}
 
-		visitor.EndExpr() // Close args expression
+		visitor.endExpression() // Close args expression
 	}
 
-	visitor.EndExpr()
+	visitor.endExpression()
 	return nil
 }
 
 func visitThisExpression(visitor *SExpressionVisitor) error {
-	visitor.BeginExpr("this")
-	visitor.EndExpr()
+	visitor.beginExpression("this")
+	visitor.endExpression()
 	return nil
 }
 
 func visitSuperExpression(visitor *SExpressionVisitor) error {
-	visitor.BeginExpr("super")
-	visitor.EndExpr()
+	visitor.beginExpression("super")
+	visitor.endExpression()
 	return nil
 }
 
 func visitNewExpression(visitor *SExpressionVisitor, expression *ast.NewExpression) error {
-	visitor.BeginExpr("new")
+	visitor.beginExpression("new")
 
 	// Process callee expression
-	visitor.WriteSpaceOrNewLine()
+	visitor.writeSpaceOrNewLine()
 	expression.Callee.Accept(visitor)
 
 	if len(expression.Arguments) > 0 {
 		// Create args expression
-		visitor.WriteSpaceOrNewLine()
-		visitor.BeginExpr("args")
+		visitor.writeSpaceOrNewLine()
+		visitor.beginExpression("args")
 
 		// Process each argument
 		for _, arg := range expression.Arguments {
-			visitor.WriteSpaceOrNewLine()
+			visitor.writeSpaceOrNewLine()
 			arg.Accept(visitor)
 		}
 
-		visitor.EndExpr() // Close args expression
+		visitor.endExpression() // Close args expression
 	}
 
-	visitor.EndExpr()
+	visitor.endExpression()
 	return nil
 }
