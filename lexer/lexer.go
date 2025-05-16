@@ -27,7 +27,7 @@ func (l *Lexer) NextToken() Token {
 	// Check if we're at the end of the source
 	if currentIndex >= len(l.source) {
 		return Token{
-			TokenType: End,
+			TokenType: TokenEnd,
 			Start:     currentIndex,
 			End:       currentIndex,
 		}
@@ -48,7 +48,7 @@ func (l *Lexer) NextToken() Token {
 		tokenLen := len(tokenText)
 
 		switch rule.TokenType {
-		case Whitespace, SingleLineComment, MultiLineComment:
+		case TokenWhitespace, TokenSingleLineComment, TokenMultiLineComment:
 			// Skip whitespace and comments
 			l.index = currentIndex + tokenLen
 			return l.NextToken()

@@ -6,11 +6,7 @@ type NodeType int
 const (
 	NodeUnknown NodeType = iota
 
-	/**
-	*******************
-	* Statement types *
-	*******************
-	 */
+	// Statement types
 
 	NodeProgramStatement
 	NodeBlockStatement
@@ -25,11 +21,7 @@ const (
 	NodeReturnStatement
 	NodeClassDeclarationStatement
 
-	/**
-	********************
-	* Expression types *
-	********************
-	 */
+	// Expression types
 
 	NodeVariableExpression
 	NodeAssignmentExpression

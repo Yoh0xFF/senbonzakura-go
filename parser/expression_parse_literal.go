@@ -19,13 +19,13 @@ import (
 //	;
 func parseLiteralExpression(parser *Parser) ast.Expression {
 	switch parser.lookahead.TokenType {
-	case lexer.Boolean:
+	case lexer.TokenBoolean:
 		return parseBooleanLiteralExpression(parser)
-	case lexer.Nil:
+	case lexer.TokenNil:
 		return parseNilLiteralExpression(parser)
-	case lexer.Number:
+	case lexer.TokenNumber:
 		return parseNumericLiteralExpression(parser)
-	case lexer.String:
+	case lexer.TokenString:
 		return parseStringLiteralExpression(parser)
 	default:
 		panic("Literal: unexpected literal production")
@@ -39,7 +39,7 @@ func parseLiteralExpression(parser *Parser) ast.Expression {
 //	: BOOLEAN
 //	;
 func parseBooleanLiteralExpression(parser *Parser) ast.Expression {
-	token := eat(parser, lexer.Boolean)
+	token := eat(parser, lexer.TokenBoolean)
 	tokenValue := parser.source[token.Start:token.End]
 	boolValue := tokenValue == "true"
 
@@ -55,7 +55,7 @@ func parseBooleanLiteralExpression(parser *Parser) ast.Expression {
 //	: NIL
 //	;
 func parseNilLiteralExpression(parser *Parser) ast.Expression {
-	eat(parser, lexer.Nil)
+	eat(parser, lexer.TokenNil)
 
 	return &ast.NilLiteralExpression{}
 }
@@ -67,7 +67,7 @@ func parseNilLiteralExpression(parser *Parser) ast.Expression {
 //	: NUMBER
 //	;
 func parseNumericLiteralExpression(parser *Parser) ast.Expression {
-	token := eat(parser, lexer.Number)
+	token := eat(parser, lexer.TokenNumber)
 	tokenValue := parser.source[token.Start:token.End]
 	tokenValue = strings.TrimSpace(tokenValue)
 
@@ -89,7 +89,7 @@ func parseNumericLiteralExpression(parser *Parser) ast.Expression {
 //	: STRING
 //	;
 func parseStringLiteralExpression(parser *Parser) ast.Expression {
-	token := eat(parser, lexer.String)
+	token := eat(parser, lexer.TokenString)
 	// Remove the surrounding quotes
 	tokenValue := parser.source[token.Start+1 : token.End-1]
 

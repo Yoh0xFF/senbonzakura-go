@@ -23,8 +23,8 @@ func parseAssignmentExpression(parser *Parser) ast.Expression {
 	assignmentOperatorToken := eatAnyOf(
 		parser,
 		[]lexer.TokenType{
-			lexer.SimpleAssignmentOperator,
-			lexer.ComplexAssignmentOperator,
+			lexer.TokenSimpleAssignmentOperator,
+			lexer.TokenComplexAssignmentOperator,
 		},
 	)
 

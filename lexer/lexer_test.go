@@ -25,7 +25,7 @@ func TestSingleLineComment(t *testing.T) {
 	nextToken := lexer.NextToken()
 
 	expected := Token{
-		TokenType: Number,
+		TokenType: TokenNumber,
 		Start:     findIndex(source, "1"),
 		End:       findIndex(source, "7") + 1,
 	}
@@ -48,7 +48,7 @@ func TestMultiLineComment(t *testing.T) {
 	nextToken := lexer.NextToken()
 
 	expected := Token{
-		TokenType: Number,
+		TokenType: TokenNumber,
 		Start:     findIndex(source, "1"),
 		End:       findIndex(source, "9") + 1,
 	}
@@ -71,7 +71,7 @@ func TestFormattedMultiLineComment(t *testing.T) {
 	nextToken := lexer.NextToken()
 
 	expected := Token{
-		TokenType: Number,
+		TokenType: TokenNumber,
 		Start:     findIndex(source, "1"),
 		End:       findIndex(source, "9") + 1,
 	}
@@ -88,7 +88,7 @@ func TestNumberToken(t *testing.T) {
 	nextToken := lexer.NextToken()
 
 	expected := Token{
-		TokenType: Number,
+		TokenType: TokenNumber,
 		Start:     findIndex(source, "1"),
 		End:       findIndex(source, "2") + 1,
 	}
@@ -104,7 +104,7 @@ func TestSkipWhitespace(t *testing.T) {
 	nextToken := lexer.NextToken()
 
 	expected := Token{
-		TokenType: Number,
+		TokenType: TokenNumber,
 		Start:     findIndex(source, "1"),
 		End:       findIndex(source, "2") + 1,
 	}
@@ -125,13 +125,13 @@ func TestStringTokens(t *testing.T) {
 	nextTokenB := lexer.NextToken()
 
 	expectedA := Token{
-		TokenType: String,
+		TokenType: TokenString,
 		Start:     strings.Index(source, tokenA),
 		End:       strings.Index(source, tokenA) + len(tokenA),
 	}
 
 	expectedB := Token{
-		TokenType: String,
+		TokenType: TokenString,
 		Start:     strings.Index(source, tokenB),
 		End:       strings.Index(source, tokenB) + len(tokenB),
 	}
@@ -153,7 +153,7 @@ func TestStringTokenWithWhitespace(t *testing.T) {
 	nextToken := lexer.NextToken()
 
 	expected := Token{
-		TokenType: String,
+		TokenType: TokenString,
 		Start:     strings.Index(source, token),
 		End:       strings.Index(source, token) + len(token),
 	}
@@ -171,11 +171,11 @@ func TestLexerEndOfInput(t *testing.T) {
 	// Get the number token
 	_ = lexer.NextToken()
 
-	// Next should be End token
+	// Next should be TokenEnd token
 	endToken := lexer.NextToken()
 
-	if endToken.TokenType != End {
-		t.Errorf("Expected End token, got %v", endToken.TokenType)
+	if endToken.TokenType != TokenEnd {
+		t.Errorf("Expected TokenEnd token, got %v", endToken.TokenType)
 	}
 }
 
@@ -184,12 +184,12 @@ func TestLexerMultipleTokens(t *testing.T) {
 	lexer := NewLexer(source)
 
 	expectedTokens := []TokenType{
-		LetKeyword,
-		Identifier,
-		SimpleAssignmentOperator,
-		Number,
-		StatementEnd,
-		End,
+		TokenLetKeyword,
+		TokenIdentifier,
+		TokenSimpleAssignmentOperator,
+		TokenNumber,
+		TokenStatementEnd,
+		TokenEnd,
 	}
 
 	for i, expectedType := range expectedTokens {
@@ -219,7 +219,7 @@ func BenchmarkLexerSimple(b *testing.B) {
 
 	for i := 0; i < b.N; i++ {
 		lexer := NewLexer(source)
-		for token := lexer.NextToken(); token.TokenType != End; token = lexer.NextToken() {
+		for token := lexer.NextToken(); token.TokenType != TokenEnd; token = lexer.NextToken() {
 			// Process all tokens
 		}
 	}
@@ -244,7 +244,7 @@ func BenchmarkLexerComplex(b *testing.B) {
 
 	for i := 0; i < b.N; i++ {
 		lexer := NewLexer(source)
-		for token := lexer.NextToken(); token.TokenType != End; token = lexer.NextToken() {
+		for token := lexer.NextToken(); token.TokenType != TokenEnd; token = lexer.NextToken() {
 			// Process all tokens
 		}
 	}

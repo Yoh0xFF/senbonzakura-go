@@ -67,10 +67,10 @@ func isLiteralToken(parser *Parser) bool {
 	return isAnyOfToken(
 		parser,
 		[]lexer.TokenType{
-			lexer.Boolean,
-			lexer.Nil,
-			lexer.Number,
-			lexer.String,
+			lexer.TokenBoolean,
+			lexer.TokenNil,
+			lexer.TokenNumber,
+			lexer.TokenString,
 		},
 	)
 }
@@ -80,8 +80,8 @@ func isAssignmentOperatorToken(parser *Parser) bool {
 	return isAnyOfToken(
 		parser,
 		[]lexer.TokenType{
-			lexer.SimpleAssignmentOperator,
-			lexer.ComplexAssignmentOperator,
+			lexer.TokenSimpleAssignmentOperator,
+			lexer.TokenComplexAssignmentOperator,
 		},
 	)
 }

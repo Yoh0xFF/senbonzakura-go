@@ -30,76 +30,76 @@ func initRegexRules() {
 		tokenType TokenType
 		desc      string
 	}{
-		// Whitespace
-		{`^\s+`, Whitespace, "whitespace"},
+		// TokenWhitespace
+		{`^\s+`, TokenWhitespace, "whitespace"},
 
 		// Comments
-		{`^//.*`, SingleLineComment, "single line comments"},
-		{`^/\*[\s\S]*?\*/`, MultiLineComment, "multi line comments"},
+		{`^//.*`, TokenSingleLineComment, "single line comments"},
+		{`^/\*[\s\S]*?\*/`, TokenMultiLineComment, "multi line comments"},
 
 		// Symbols, delimiters
-		{`^;`, StatementEnd, "statement end (;) symbol"},
-		{`^\{`, OpeningBrace, "opening brace ({) symbol"},
-		{`^}`, ClosingBrace, "closing brace (}) symbol"},
-		{`^\(`, OpeningParenthesis, "opening parenthesis (() symbol"},
-		{`^\)`, ClosingParenthesis, "closing parenthesis ()) symbol"},
-		{`^\[`, OpeningBracket, "opening bracket ([) symbol"},
-		{`^]`, ClosingBracket, "closing bracket (]) symbol"},
-		{`^,`, Comma, "comma (,) symbol"},
-		{`^\.`, Dot, "dot (.) symbol"},
-		{`^:`, Colon, "colon (:) symbol"},
+		{`^;`, TokenStatementEnd, "statement end (;) symbol"},
+		{`^\{`, TokenOpeningBrace, "opening brace ({) symbol"},
+		{`^}`, TokenClosingBrace, "closing brace (}) symbol"},
+		{`^\(`, TokenOpeningParenthesis, "opening parenthesis (() symbol"},
+		{`^\)`, TokenClosingParenthesis, "closing parenthesis ()) symbol"},
+		{`^\[`, TokenOpeningBracket, "opening bracket ([) symbol"},
+		{`^]`, TokenClosingBracket, "closing bracket (]) symbol"},
+		{`^,`, TokenComma, "comma (,) symbol"},
+		{`^\.`, TokenDot, "dot (.) symbol"},
+		{`^:`, TokenColon, "colon (:) symbol"},
 
 		// Keywords
-		{`^\btrue\b`, Boolean, "the 'true' keyword"},
-		{`^\bfalse\b`, Boolean, "the 'false' keyword"},
-		{`^\bnil\b`, Nil, "the 'nil' keyword"},
-		{`^\blet\b`, LetKeyword, "the 'let' keyword"},
-		{`^\bif\b`, IfKeyword, "the 'if' keyword"},
-		{`^\belse\b`, ElseKeyword, "the 'else' keyword"},
-		{`^\bwhile\b`, WhileKeyword, "the 'while' keyword"},
-		{`^\bdo\b`, DoKeyword, "the 'do' keyword"},
-		{`^\bfor\b`, ForKeyword, "the 'for' keyword"},
-		{`^\bdef\b`, DefKeyword, "the 'def' keyword"},
-		{`^\breturn\b`, ReturnKeyword, "the 'return' keyword"},
-		{`^\bclass\b`, ClassKeyword, "the 'class' keyword"},
-		{`^\bextends\b`, ExtendsKeyword, "the 'extends' keyword"},
-		{`^\bthis\b`, ThisKeyword, "the 'this' keyword"},
-		{`^\bsuper\b`, SuperKeyword, "the 'super' keyword"},
-		{`^\bnew\b`, NewKeyword, "the 'new' keyword"},
-		{`^\btype\b`, TypeKeyword, "type keyword"},
-		{`^\bnumber\b`, NumberTypeKeyword, "number type"},
-		{`^\bstring\b`, StringTypeKeyword, "string type"},
-		{`^\bboolean\b`, BooleanTypeKeyword, "boolean type"},
-		{`^\bvoid\b`, VoidTypeKeyword, "void type"},
+		{`^\btrue\b`, TokenBoolean, "the 'true' keyword"},
+		{`^\bfalse\b`, TokenBoolean, "the 'false' keyword"},
+		{`^\bnil\b`, TokenNil, "the 'nil' keyword"},
+		{`^\blet\b`, TokenLetKeyword, "the 'let' keyword"},
+		{`^\bif\b`, TokenIfKeyword, "the 'if' keyword"},
+		{`^\belse\b`, TokenElseKeyword, "the 'else' keyword"},
+		{`^\bwhile\b`, TokenWhileKeyword, "the 'while' keyword"},
+		{`^\bdo\b`, TokenDoKeyword, "the 'do' keyword"},
+		{`^\bfor\b`, TokenForKeyword, "the 'for' keyword"},
+		{`^\bdef\b`, TokenDefKeyword, "the 'def' keyword"},
+		{`^\breturn\b`, TokenReturnKeyword, "the 'return' keyword"},
+		{`^\bclass\b`, TokenClassKeyword, "the 'class' keyword"},
+		{`^\bextends\b`, TokenExtendsKeyword, "the 'extends' keyword"},
+		{`^\bthis\b`, TokenThisKeyword, "the 'this' keyword"},
+		{`^\bsuper\b`, TokenSuperKeyword, "the 'super' keyword"},
+		{`^\bnew\b`, TokenNewKeyword, "the 'new' keyword"},
+		{`^\btype\b`, TokenTypeKeyword, "type keyword"},
+		{`^\bnumber\b`, TokenNumberTypeKeyword, "number type"},
+		{`^\bstring\b`, TokenStringTypeKeyword, "string type"},
+		{`^\bboolean\b`, TokenBooleanTypeKeyword, "boolean type"},
+		{`^\bvoid\b`, TokenVoidTypeKeyword, "void type"},
 
 		// Equality Operator
-		{`^[=!]=`, EqualityOperator, "equality operator"},
+		{`^[=!]=`, TokenEqualityOperator, "equality operator"},
 
 		// Assignment operators
-		{`^=`, SimpleAssignmentOperator, "single assignment operator"},
-		{`^[*/+-]=`, ComplexAssignmentOperator, "complex assignment operator"},
+		{`^=`, TokenSimpleAssignmentOperator, "single assignment operator"},
+		{`^[*/+-]=`, TokenComplexAssignmentOperator, "complex assignment operator"},
 
 		// Math operators
-		{`^[+\-]`, AdditiveOperator, "additive operators (+, -)"},
-		{`^[*/]`, FactorOperator, "factor operators (*, /"},
+		{`^[+\-]`, TokenAdditiveOperator, "additive operators (+, -)"},
+		{`^[*/]`, TokenFactorOperator, "factor operators (*, /"},
 
 		// Relational operators
-		{`^[><]=?`, RelationalOperator, "relational operators (>, >=, <, <=)"},
+		{`^[><]=?`, TokenRelationalOperator, "relational operators (>, >=, <, <=)"},
 
 		// Logical operators
-		{`^&&`, LogicalAndOperator, "logical and operator"},
-		{`^\|\|`, LogicalOrOperator, "logical or operator"},
-		{`^!`, LogicalNotOperator, "logical not operator"},
+		{`^&&`, TokenLogicalAndOperator, "logical and operator"},
+		{`^\|\|`, TokenLogicalOrOperator, "logical or operator"},
+		{`^!`, TokenLogicalNotOperator, "logical not operator"},
 
 		// Numbers
-		{`^\d+`, Number, "number literal"},
+		{`^\d+`, TokenNumber, "number literal"},
 
 		// Strings
-		{`^"[^"]*"`, String, "double quote string literal"},
-		{`^'[^']*'`, String, "single quote string literal"},
+		{`^"[^"]*"`, TokenString, "double quote string literal"},
+		{`^'[^']*'`, TokenString, "single quote string literal"},
 
 		// Identifiers
-		{`^\w+`, Identifier, "identifiers"},
+		{`^\w+`, TokenIdentifier, "identifiers"},
 	}
 
 	// Compile all patterns and create rules
