@@ -1,6 +1,6 @@
 # Senbonzakura
 
-<p align="center">
+<p style="text-align:center;">
   <img alt="pic" src="https://imgs.xkcd.com/comics/standards_2x.png" />
 </p>
 
