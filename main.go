@@ -1,21 +1,60 @@
 package main
 
 import (
-  "fmt"
+	"fmt"
+	"github.com/yoh0xff/senbonzakura/parser"
+	"github.com/yoh0xff/senbonzakura/visitor_s_expression"
 )
 
-//TIP <p>To run your code, right-click the code and select <b>Run</b>.</p> <p>Alternatively, click
-// the <icon src="AllIcons.Actions.Execute"/> icon in the gutter and select the <b>Run</b> menu item from here.</p>
-
 func main() {
-  //TIP <p>Press <shortcut actionId="ShowIntentionActions"/> when your caret is at the underlined text
-  // to see how GoLand suggests fixing the warning.</p><p>Alternatively, if available, click the lightbulb to view possible fixes.</p>
-  s := "gopher"
-  fmt.Printf("Hello and welcome, %s!\n", s)
+	// A simple program in our language
+	source := `
+		// Sample program that shows basic language features
+		class Person {
+			def constructor(name: string, age: number) {
+				this.name = name;
+				this.age = age;
+			}
+			
+			def getName(): string {
+				return this.name;
+			}
 
-  for i := 1; i <= 5; i++ {
-	//TIP <p>To start your debugging session, right-click your code in the editor and select the Debug option.</p> <p>We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-	// for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.</p>
-	fmt.Println("i =", 100/i)
-  }
+			def getAge(): number {
+				return this.age;
+			}
+		}
+		
+		let person: Person = new Person("John", 30);
+		let name: string = person.getName();
+		let age: number = person.getAge();
+		
+		if (age > 20) {
+			// Adult
+			let message: string = name + " is an adult.";
+		} else {
+			// Minor
+			let message: string = name + " is a minor.";
+		}
+	`
+
+	// Create a new parser
+	p := parser.NewParser(source)
+
+	// Parse the source code into an AST
+	ast := parser.ParseRootStatement(p)
+
+	// Create an S-expression visitor to generate the S-expression representation
+	prettyConfig := visitor_s_expression.SExpressionConfig{
+		Pretty:     true,
+		IndentSize: 2,
+	}
+	visitor := visitor_s_expression.NewSExpressionVisitorWithConfig(prettyConfig)
+
+	// Visit the AST to generate the S-expression
+	ast.Accept(visitor)
+
+	// Print the S-expression
+	fmt.Println("S-Expression representation:")
+	fmt.Println(visitor.String())
 }
