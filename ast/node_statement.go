@@ -86,3 +86,17 @@ func (s *ForStatement) NodeType() NodeType                 { return NodeForState
 func (s *FunctionDeclarationStatement) NodeType() NodeType { return NodeFunctionDeclarationStatement }
 func (s *ReturnStatement) NodeType() NodeType              { return NodeReturnStatement }
 func (s *ClassDeclarationStatement) NodeType() NodeType    { return NodeClassDeclarationStatement }
+
+// Accept implementation of Expression interface method
+func (s *ProgramStatement) Accept(visitor Visitor) any             { return visitor.VisitStatement(s) }
+func (s *BlockStatement) Accept(visitor Visitor) any               { return visitor.VisitStatement(s) }
+func (s *EmptyStatement) Accept(visitor Visitor) any               { return visitor.VisitStatement(s) }
+func (s *ExpressionStatement) Accept(visitor Visitor) any          { return visitor.VisitStatement(s) }
+func (s *VariableDeclarationStatement) Accept(visitor Visitor) any { return visitor.VisitStatement(s) }
+func (s *IfStatement) Accept(visitor Visitor) any                  { return visitor.VisitStatement(s) }
+func (s *WhileStatement) Accept(visitor Visitor) any               { return visitor.VisitStatement(s) }
+func (s *DoWhileStatement) Accept(visitor Visitor) any             { return visitor.VisitStatement(s) }
+func (s *ForStatement) Accept(visitor Visitor) any                 { return visitor.VisitStatement(s) }
+func (s *FunctionDeclarationStatement) Accept(visitor Visitor) any { return visitor.VisitStatement(s) }
+func (s *ReturnStatement) Accept(visitor Visitor) any              { return visitor.VisitStatement(s) }
+func (s *ClassDeclarationStatement) Accept(visitor Visitor) any    { return visitor.VisitStatement(s) }

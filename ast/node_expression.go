@@ -103,3 +103,20 @@ func (e *CallExpression) NodeType() NodeType           { return NodeCallExpressi
 func (e *ThisExpression) NodeType() NodeType           { return NodeThisExpression }
 func (e *SuperExpression) NodeType() NodeType          { return NodeSuperExpression }
 func (e *NewExpression) NodeType() NodeType            { return NodeNewExpression }
+
+// Accept implementation of StatementDispatcher interface method
+func (e *VariableExpression) Accept(visitor Visitor) any       { return visitor.VisitExpression(e) }
+func (e *AssignmentExpression) Accept(visitor Visitor) any     { return visitor.VisitExpression(e) }
+func (e *BinaryExpression) Accept(visitor Visitor) any         { return visitor.VisitExpression(e) }
+func (e *UnaryExpression) Accept(visitor Visitor) any          { return visitor.VisitExpression(e) }
+func (e *LogicalExpression) Accept(visitor Visitor) any        { return visitor.VisitExpression(e) }
+func (e *BooleanLiteralExpression) Accept(visitor Visitor) any { return visitor.VisitExpression(e) }
+func (e *NilLiteralExpression) Accept(visitor Visitor) any     { return visitor.VisitExpression(e) }
+func (e *StringLiteralExpression) Accept(visitor Visitor) any  { return visitor.VisitExpression(e) }
+func (e *NumericLiteralExpression) Accept(visitor Visitor) any { return visitor.VisitExpression(e) }
+func (e *IdentifierExpression) Accept(visitor Visitor) any     { return visitor.VisitExpression(e) }
+func (e *MemberExpression) Accept(visitor Visitor) any         { return visitor.VisitExpression(e) }
+func (e *CallExpression) Accept(visitor Visitor) any           { return visitor.VisitExpression(e) }
+func (e *ThisExpression) Accept(visitor Visitor) any           { return visitor.VisitExpression(e) }
+func (e *SuperExpression) Accept(visitor Visitor) any          { return visitor.VisitExpression(e) }
+func (e *NewExpression) Accept(visitor Visitor) any            { return visitor.VisitExpression(e) }

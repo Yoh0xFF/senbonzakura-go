@@ -7,12 +7,14 @@ type Node interface {
 // Statement represents different statement types in the AST
 type Statement interface {
 	Node
+	StatementDispatcher
 	isStatement()
 }
 
 // Expression represents different expression types in the AST
 type Expression interface {
 	Node
+	ExpressionDispatcher
 	isExpression()
 }
 
