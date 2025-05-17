@@ -2,41 +2,42 @@ package visitor_s_expression
 
 import (
 	"fmt"
+
 	"github.com/yoh0xff/senbonzakura/ast"
 )
 
-func visitStatement(visitor *SExpressionVisitor, statement ast.Statement) any {
+func visitStatement(visitor *SExpressionVisitor, statement ast.Statement) {
 	switch statement.NodeType() {
 	case ast.NodeProgramStatement:
-		return visitProgramStatement(visitor, statement.(*ast.ProgramStatement))
+		visitProgramStatement(visitor, statement.(*ast.ProgramStatement))
 	case ast.NodeBlockStatement:
-		return visitBlockStatement(visitor, statement.(*ast.BlockStatement))
+		visitBlockStatement(visitor, statement.(*ast.BlockStatement))
 	case ast.NodeEmptyStatement:
-		return visitEmptyStatement(visitor)
+		visitEmptyStatement(visitor)
 	case ast.NodeExpressionStatement:
-		return visitExpressionStatement(visitor, statement.(*ast.ExpressionStatement))
+		visitExpressionStatement(visitor, statement.(*ast.ExpressionStatement))
 	case ast.NodeVariableDeclarationStatement:
-		return visitVariableDeclarationStatement(visitor, statement.(*ast.VariableDeclarationStatement))
+		visitVariableDeclarationStatement(visitor, statement.(*ast.VariableDeclarationStatement))
 	case ast.NodeIfStatement:
-		return visitConditionalStatement(visitor, statement.(*ast.IfStatement))
+		visitConditionalStatement(visitor, statement.(*ast.IfStatement))
 	case ast.NodeWhileStatement:
-		return visitWhileStatement(visitor, statement.(*ast.WhileStatement))
+		visitWhileStatement(visitor, statement.(*ast.WhileStatement))
 	case ast.NodeDoWhileStatement:
-		return visitDoWhileStatement(visitor, statement.(*ast.DoWhileStatement))
+		visitDoWhileStatement(visitor, statement.(*ast.DoWhileStatement))
 	case ast.NodeForStatement:
-		return visitForStatement(visitor, statement.(*ast.ForStatement))
+		visitForStatement(visitor, statement.(*ast.ForStatement))
 	case ast.NodeFunctionDeclarationStatement:
-		return visitFunctionDeclarationStatement(visitor, statement.(*ast.FunctionDeclarationStatement))
+		visitFunctionDeclarationStatement(visitor, statement.(*ast.FunctionDeclarationStatement))
 	case ast.NodeReturnStatement:
-		return visitReturnStatement(visitor, statement.(*ast.ReturnStatement))
+		visitReturnStatement(visitor, statement.(*ast.ReturnStatement))
 	case ast.NodeClassDeclarationStatement:
-		return visitClassDeclarationStatement(visitor, statement.(*ast.ClassDeclarationStatement))
+		visitClassDeclarationStatement(visitor, statement.(*ast.ClassDeclarationStatement))
 	default:
-		return fmt.Errorf("unknown statement type: %T", statement)
+		panic(fmt.Errorf("unknown statement type: %T", statement))
 	}
 }
 
-func visitProgramStatement(visitor *SExpressionVisitor, statement *ast.ProgramStatement) error {
+func visitProgramStatement(visitor *SExpressionVisitor, statement *ast.ProgramStatement) {
 	visitor.beginExpression("program")
 
 	if len(statement.Body) > 0 {
@@ -47,10 +48,9 @@ func visitProgramStatement(visitor *SExpressionVisitor, statement *ast.ProgramSt
 	}
 
 	visitor.endExpression()
-	return nil
 }
 
-func visitBlockStatement(visitor *SExpressionVisitor, statement *ast.BlockStatement) error {
+func visitBlockStatement(visitor *SExpressionVisitor, statement *ast.BlockStatement) {
 	visitor.beginExpression("block")
 
 	if len(statement.Body) > 0 {
@@ -61,24 +61,21 @@ func visitBlockStatement(visitor *SExpressionVisitor, statement *ast.BlockStatem
 	}
 
 	visitor.endExpression()
-	return nil
 }
 
-func visitEmptyStatement(visitor *SExpressionVisitor) error {
+func visitEmptyStatement(visitor *SExpressionVisitor) {
 	visitor.beginExpression("empty")
 	visitor.endExpression()
-	return nil
 }
 
-func visitExpressionStatement(visitor *SExpressionVisitor, statement *ast.ExpressionStatement) error {
+func visitExpressionStatement(visitor *SExpressionVisitor, statement *ast.ExpressionStatement) {
 	visitor.beginExpression("expr")
 	visitor.writeSpaceOrNewLine()
 	statement.Expression.Accept(visitor)
 	visitor.endExpression()
-	return nil
 }
 
-func visitVariableDeclarationStatement(visitor *SExpressionVisitor, statement *ast.VariableDeclarationStatement) error {
+func visitVariableDeclarationStatement(visitor *SExpressionVisitor, statement *ast.VariableDeclarationStatement) {
 	visitor.beginExpression("let")
 
 	for _, variable := range statement.Variables {
@@ -87,10 +84,9 @@ func visitVariableDeclarationStatement(visitor *SExpressionVisitor, statement *a
 	}
 
 	visitor.endExpression()
-	return nil
 }
 
-func visitConditionalStatement(visitor *SExpressionVisitor, statement *ast.IfStatement) error {
+func visitConditionalStatement(visitor *SExpressionVisitor, statement *ast.IfStatement) {
 	visitor.beginExpression("if")
 
 	// Process condition
@@ -108,10 +104,9 @@ func visitConditionalStatement(visitor *SExpressionVisitor, statement *ast.IfSta
 	}
 
 	visitor.endExpression()
-	return nil
 }
 
-func visitWhileStatement(visitor *SExpressionVisitor, statement *ast.WhileStatement) error {
+func visitWhileStatement(visitor *SExpressionVisitor, statement *ast.WhileStatement) {
 	visitor.beginExpression("while")
 
 	// Process condition
@@ -123,10 +118,9 @@ func visitWhileStatement(visitor *SExpressionVisitor, statement *ast.WhileStatem
 	statement.Body.Accept(visitor)
 
 	visitor.endExpression()
-	return nil
 }
 
-func visitDoWhileStatement(visitor *SExpressionVisitor, statement *ast.DoWhileStatement) error {
+func visitDoWhileStatement(visitor *SExpressionVisitor, statement *ast.DoWhileStatement) {
 	visitor.beginExpression("do-while")
 
 	// Process body first (unlike while, do-while executes body first)
@@ -138,10 +132,9 @@ func visitDoWhileStatement(visitor *SExpressionVisitor, statement *ast.DoWhileSt
 	statement.Condition.Accept(visitor)
 
 	visitor.endExpression()
-	return nil
 }
 
-func visitForStatement(visitor *SExpressionVisitor, statement *ast.ForStatement) error {
+func visitForStatement(visitor *SExpressionVisitor, statement *ast.ForStatement) {
 	visitor.beginExpression("for")
 
 	// Process initializer if present
@@ -167,10 +160,9 @@ func visitForStatement(visitor *SExpressionVisitor, statement *ast.ForStatement)
 	statement.Body.Accept(visitor)
 
 	visitor.endExpression()
-	return nil
 }
 
-func visitFunctionDeclarationStatement(visitor *SExpressionVisitor, statement *ast.FunctionDeclarationStatement) error {
+func visitFunctionDeclarationStatement(visitor *SExpressionVisitor, statement *ast.FunctionDeclarationStatement) {
 	visitor.beginExpression("def")
 
 	// Process function name
@@ -211,10 +203,9 @@ func visitFunctionDeclarationStatement(visitor *SExpressionVisitor, statement *a
 	statement.Body.Accept(visitor)
 
 	visitor.endExpression()
-	return nil
 }
 
-func visitReturnStatement(visitor *SExpressionVisitor, statement *ast.ReturnStatement) error {
+func visitReturnStatement(visitor *SExpressionVisitor, statement *ast.ReturnStatement) {
 	visitor.beginExpression("return")
 
 	// Process return argument if present
@@ -224,10 +215,9 @@ func visitReturnStatement(visitor *SExpressionVisitor, statement *ast.ReturnStat
 	}
 
 	visitor.endExpression()
-	return nil
 }
 
-func visitClassDeclarationStatement(visitor *SExpressionVisitor, statement *ast.ClassDeclarationStatement) error {
+func visitClassDeclarationStatement(visitor *SExpressionVisitor, statement *ast.ClassDeclarationStatement) {
 	visitor.beginExpression("class")
 
 	// Process class name
@@ -248,7 +238,6 @@ func visitClassDeclarationStatement(visitor *SExpressionVisitor, statement *ast.
 	statement.Body.Accept(visitor)
 
 	visitor.endExpression()
-	return nil
 }
 
 // Helper function to visit type annotations

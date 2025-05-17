@@ -37,11 +37,11 @@ func NewSExpressionVisitorWithConfig(config SExpressionConfig) *SExpressionVisit
 }
 
 // VisitStatement implements the ast.Visitor interface
-func (v *SExpressionVisitor) VisitStatement(statement ast.Statement) any {
-	return visitStatement(v, statement)
+func (v *SExpressionVisitor) VisitStatement(statement ast.Statement) {
+	visitStatement(v, statement)
 }
 
 // VisitExpression implements the ast.Visitor interface
-func (v *SExpressionVisitor) VisitExpression(expression ast.Expression) any {
-	return visitExpression(v, expression)
+func (v *SExpressionVisitor) VisitExpression(expression ast.Expression) {
+	visitExpression(v, expression)
 }

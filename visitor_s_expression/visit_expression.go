@@ -2,48 +2,49 @@ package visitor_s_expression
 
 import (
 	"fmt"
-	"github.com/yoh0xff/senbonzakura/ast"
 	"strings"
+
+	"github.com/yoh0xff/senbonzakura/ast"
 )
 
-func visitExpression(visitor *SExpressionVisitor, expression ast.Expression) any {
+func visitExpression(visitor *SExpressionVisitor, expression ast.Expression) {
 	switch expression.NodeType() {
 	case ast.NodeVariableExpression:
-		return visitVariableExpression(visitor, expression.(*ast.VariableExpression))
+		visitVariableExpression(visitor, expression.(*ast.VariableExpression))
 	case ast.NodeAssignmentExpression:
-		return visitAssignmentExpression(visitor, expression.(*ast.AssignmentExpression))
+		visitAssignmentExpression(visitor, expression.(*ast.AssignmentExpression))
 	case ast.NodeBinaryExpression:
-		return visitBinaryExpression(visitor, expression.(*ast.BinaryExpression))
+		visitBinaryExpression(visitor, expression.(*ast.BinaryExpression))
 	case ast.NodeUnaryExpression:
-		return visitUnaryExpression(visitor, expression.(*ast.UnaryExpression))
+		visitUnaryExpression(visitor, expression.(*ast.UnaryExpression))
 	case ast.NodeLogicalExpression:
-		return visitLogicalExpression(visitor, expression.(*ast.LogicalExpression))
+		visitLogicalExpression(visitor, expression.(*ast.LogicalExpression))
 	case ast.NodeBooleanLiteralExpression:
-		return visitBooleanLiteralExpression(visitor, expression.(*ast.BooleanLiteralExpression))
+		visitBooleanLiteralExpression(visitor, expression.(*ast.BooleanLiteralExpression))
 	case ast.NodeNilLiteralExpression:
-		return visitNilLiteralExpression(visitor)
+		visitNilLiteralExpression(visitor)
 	case ast.NodeNumericLiteralExpression:
-		return visitNumericLiteralExpression(visitor, expression.(*ast.NumericLiteralExpression))
+		visitNumericLiteralExpression(visitor, expression.(*ast.NumericLiteralExpression))
 	case ast.NodeStringLiteralExpression:
-		return visitStringLiteralExpression(visitor, expression.(*ast.StringLiteralExpression))
+		visitStringLiteralExpression(visitor, expression.(*ast.StringLiteralExpression))
 	case ast.NodeIdentifierExpression:
-		return visitIdentifierExpression(visitor, expression.(*ast.IdentifierExpression))
+		visitIdentifierExpression(visitor, expression.(*ast.IdentifierExpression))
 	case ast.NodeMemberExpression:
-		return visitMemberExpression(visitor, expression.(*ast.MemberExpression))
+		visitMemberExpression(visitor, expression.(*ast.MemberExpression))
 	case ast.NodeCallExpression:
-		return visitCallExpression(visitor, expression.(*ast.CallExpression))
+		visitCallExpression(visitor, expression.(*ast.CallExpression))
 	case ast.NodeThisExpression:
-		return visitThisExpression(visitor)
+		visitThisExpression(visitor)
 	case ast.NodeSuperExpression:
-		return visitSuperExpression(visitor)
+		visitSuperExpression(visitor)
 	case ast.NodeNewExpression:
-		return visitNewExpression(visitor, expression.(*ast.NewExpression))
+		visitNewExpression(visitor, expression.(*ast.NewExpression))
 	default:
-		return fmt.Errorf("unknown expression type: %T", expression)
+		panic(fmt.Errorf("unknown expression type: %T", expression))
 	}
 }
 
-func visitVariableExpression(visitor *SExpressionVisitor, expression *ast.VariableExpression) error {
+func visitVariableExpression(visitor *SExpressionVisitor, expression *ast.VariableExpression) {
 	visitor.beginExpression("init")
 
 	// Process identifier
@@ -63,10 +64,9 @@ func visitVariableExpression(visitor *SExpressionVisitor, expression *ast.Variab
 	}
 
 	visitor.endExpression()
-	return nil
 }
 
-func visitAssignmentExpression(visitor *SExpressionVisitor, expression *ast.AssignmentExpression) error {
+func visitAssignmentExpression(visitor *SExpressionVisitor, expression *ast.AssignmentExpression) {
 	visitor.beginExpression("assign")
 
 	// Write the operator
@@ -82,10 +82,9 @@ func visitAssignmentExpression(visitor *SExpressionVisitor, expression *ast.Assi
 	expression.Right.Accept(visitor)
 
 	visitor.endExpression()
-	return nil
 }
 
-func visitBinaryExpression(visitor *SExpressionVisitor, expression *ast.BinaryExpression) error {
+func visitBinaryExpression(visitor *SExpressionVisitor, expression *ast.BinaryExpression) {
 	visitor.beginExpression("binary")
 
 	visitor.writeSpaceOrNewLine()
@@ -98,10 +97,9 @@ func visitBinaryExpression(visitor *SExpressionVisitor, expression *ast.BinaryEx
 	expression.Right.Accept(visitor)
 
 	visitor.endExpression()
-	return nil
 }
 
-func visitUnaryExpression(visitor *SExpressionVisitor, expression *ast.UnaryExpression) error {
+func visitUnaryExpression(visitor *SExpressionVisitor, expression *ast.UnaryExpression) {
 	visitor.beginExpression("unary")
 
 	visitor.writeSpaceOrNewLine()
@@ -111,10 +109,9 @@ func visitUnaryExpression(visitor *SExpressionVisitor, expression *ast.UnaryExpr
 	expression.Right.Accept(visitor)
 
 	visitor.endExpression()
-	return nil
 }
 
-func visitLogicalExpression(visitor *SExpressionVisitor, expression *ast.LogicalExpression) error {
+func visitLogicalExpression(visitor *SExpressionVisitor, expression *ast.LogicalExpression) {
 	visitor.beginExpression("logical")
 
 	visitor.writeSpaceOrNewLine()
@@ -127,30 +124,26 @@ func visitLogicalExpression(visitor *SExpressionVisitor, expression *ast.Logical
 	expression.Right.Accept(visitor)
 
 	visitor.endExpression()
-	return nil
 }
 
-func visitBooleanLiteralExpression(visitor *SExpressionVisitor, expression *ast.BooleanLiteralExpression) error {
+func visitBooleanLiteralExpression(visitor *SExpressionVisitor, expression *ast.BooleanLiteralExpression) {
 	visitor.beginExpression("boolean")
 	visitor.writeString(fmt.Sprintf(" %t", expression.Value))
 	visitor.endExpression()
-	return nil
 }
 
-func visitNilLiteralExpression(visitor *SExpressionVisitor) error {
+func visitNilLiteralExpression(visitor *SExpressionVisitor) {
 	visitor.beginExpression("nil")
 	visitor.endExpression()
-	return nil
 }
 
-func visitNumericLiteralExpression(visitor *SExpressionVisitor, expression *ast.NumericLiteralExpression) error {
+func visitNumericLiteralExpression(visitor *SExpressionVisitor, expression *ast.NumericLiteralExpression) {
 	visitor.beginExpression("number")
 	visitor.writeString(fmt.Sprintf(" %d", expression.Value))
 	visitor.endExpression()
-	return nil
 }
 
-func visitStringLiteralExpression(visitor *SExpressionVisitor, expression *ast.StringLiteralExpression) error {
+func visitStringLiteralExpression(visitor *SExpressionVisitor, expression *ast.StringLiteralExpression) {
 	visitor.beginExpression("string")
 
 	// Replace double quotes with escaped quotes
@@ -158,20 +151,18 @@ func visitStringLiteralExpression(visitor *SExpressionVisitor, expression *ast.S
 	visitor.writeString(fmt.Sprintf(" \"%s\"", escaped))
 
 	visitor.endExpression()
-	return nil
 }
 
-func visitIdentifierExpression(visitor *SExpressionVisitor, expression *ast.IdentifierExpression) error {
+func visitIdentifierExpression(visitor *SExpressionVisitor, expression *ast.IdentifierExpression) {
 	visitor.beginExpression("id")
 
 	// Write the identifier name
 	visitor.writeString(fmt.Sprintf(" %s", expression.Name))
 
 	visitor.endExpression()
-	return nil
 }
 
-func visitMemberExpression(visitor *SExpressionVisitor, expression *ast.MemberExpression) error {
+func visitMemberExpression(visitor *SExpressionVisitor, expression *ast.MemberExpression) {
 	visitor.beginExpression("member")
 
 	// Indicate whether the member access is computed (bracket notation) or not (dot notation)
@@ -191,10 +182,9 @@ func visitMemberExpression(visitor *SExpressionVisitor, expression *ast.MemberEx
 	expression.Property.Accept(visitor)
 
 	visitor.endExpression()
-	return nil
 }
 
-func visitCallExpression(visitor *SExpressionVisitor, expression *ast.CallExpression) error {
+func visitCallExpression(visitor *SExpressionVisitor, expression *ast.CallExpression) {
 	visitor.beginExpression("call")
 
 	// Process callee expression
@@ -216,22 +206,19 @@ func visitCallExpression(visitor *SExpressionVisitor, expression *ast.CallExpres
 	}
 
 	visitor.endExpression()
-	return nil
 }
 
-func visitThisExpression(visitor *SExpressionVisitor) error {
+func visitThisExpression(visitor *SExpressionVisitor) {
 	visitor.beginExpression("this")
 	visitor.endExpression()
-	return nil
 }
 
-func visitSuperExpression(visitor *SExpressionVisitor) error {
+func visitSuperExpression(visitor *SExpressionVisitor) {
 	visitor.beginExpression("super")
 	visitor.endExpression()
-	return nil
 }
 
-func visitNewExpression(visitor *SExpressionVisitor, expression *ast.NewExpression) error {
+func visitNewExpression(visitor *SExpressionVisitor, expression *ast.NewExpression) {
 	visitor.beginExpression("new")
 
 	// Process callee expression
@@ -253,5 +240,4 @@ func visitNewExpression(visitor *SExpressionVisitor, expression *ast.NewExpressi
 	}
 
 	visitor.endExpression()
-	return nil
 }
